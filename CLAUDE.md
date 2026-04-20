@@ -44,12 +44,29 @@ When drafting anything time-sensitive, be aware of this calendar. Don't suggest 
 
 ---
 
+## The Three Things Claude Must Always Remember
+
+### 1. The ICP
+- **Company:** 2–15 employees, $500K–$5M/yr, offer priced at $2,500+
+- **Person:** Founder, co-founder, partner, or C-level
+- **They are:** hungry, focused, and ready to invest in growth
+- **They are NOT:** too small, unfocused, or looking for a magic bullet
+
+### 2. The Offer (in transition)
+- **Current (closing out):** DFY Revenue Engine — done-for-you social selling team, $1K deposit, $3,500/mo. 12 deposits in, need 13 more.
+- **Pivot (building now):** FlowChat AI — a productized, licensable AI sales conversation platform built on Sean's frameworks (4-Hinge, Good-Good-Bad). Agencies and coaches license it to power their own prospecting. Revenue model: $297–$997/mo license, $2K–$5K/mo white-label, $2K–$5K certification.
+
+### 3. The Business Bottleneck
+The DFY service model requires humans to deliver — making Sean the ceiling. The DM-team model is dying as AI commoditizes manual outreach. The pivot moves Sean from *delivering* sales work to *licensing the system* that delivers it. His frameworks become the product. Claude helps build and scale the delivery so Sean stays in the strategist/closer seat.
+
+---
+
 ## Top Projects This Quarter
 
-1. **Offer creation** — packaging and positioning FlowChat's services
-2. **Prospecting** — outbound systems and LinkedIn DM workflows
-3. **Sales** — closing pipeline, improving conversion
-4. **Content creation** — turning expertise into content that attracts the ICP
+1. **Close 13 more DFY clients** — fill the current cohort before transitioning the offer
+2. **Build FlowChat AI Agent 1** — the DM Engine (prospect research + ICP score + 4-Hinge DM output)
+3. **Productize the offer** — package FlowChat AI for licensing and certification
+4. **Content creation** — turning Sean's expertise into content that attracts the ICP
 
 ---
 

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Closer's Blueprint — Cornerstone Slide Deck</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #0f1c35;
+      color: #ffffff;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,165,90,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,165,90,0.07) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── SLIDE CONTAINER ── */
+    .deck {
+      position: relative;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1100px;
+      padding: 60px 80px;
+      animation: fadeIn 0.3s ease;
+    }
+    .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── NAVIGATION ── */
+    .nav {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 10;
+    }
+    .nav button {
+      background: rgba(201,165,90,0.15);
+      border: 1px solid rgba(201,165,90,0.35);
+      color: #c9a55a;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .nav button:hover { background: rgba(201,165,90,0.25); }
+    .nav button:disabled { opacity: 0.25; cursor: default; }
+    .slide-counter {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      min-width: 60px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a55a;
+      margin-bottom: 20px;
+    }
+
+    /* ── GOLD LINE ── */
+    .gold-line {
+      width: 52px;
+      height: 3px;
+      background: #c9a55a;
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    /* ── HEADLINE SIZES ── */
+    .h-xl {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      color: #ffffff;
+    }
+    .h-lg {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+    .h-md {
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 800;
+      line-height: 1.2;
+      color: #ffffff;
+    }
+    .h-sm {
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 700;
+      line-height: 1.4;
+      color: #ffffff;
+    }
+
+    .gold { color: #c9a55a; }
+    .muted { color: rgba(255,255,255,0.5); }
+    .body-text {
+      font-size: clamp(15px, 1.8vw, 20px);
+      line-height: 1.7;
+      color: #a8b8d0;
+      margin-top: 16px;
+      max-width: 800px;
+    }
+
+    /* ── CALLOUT BOX ── */
+    .callout {
+      background: rgba(201,165,90,0.08);
+      border: 1px solid rgba(201,165,90,0.25);
+      border-left: 4px solid #c9a55a;
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-top: 28px;
+      font-size: clamp(15px, 1.8vw, 19px);
+      line-height: 1.6;
+      color: #e8d5a8;
+      max-width: 800px;
+    }
+
+    /* ── LIST ITEMS ── */
+    .bullet-list {
+      list-style: none;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 820px;
+    }
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: clamp(15px, 1.8vw, 19px);
+      color: #a8b8d0;
+      line-height: 1.5;
+    }
+    .bullet-list li .dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      background: #c9a55a;
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+    .bullet-list li strong { color: #ffffff; }
+
+    /* ── TWO COLUMN ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 32px;
+      max-width: 960px;
+    }
+    .col-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    .col-card.gold-border { border-color: rgba(201,165,90,0.3); }
+    .col-card h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #c9a55a;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .col-card p, .col-card li {
+      font-size: 15px;
+      color: #a8b8d0;
+      line-height: 1.6;
+    }
+    .col-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .col-card ul li::before { content: '→ '; color: #c9a55a; font-weight: 700; }
+
+    /* ── FRAMEWORK STEPS ── */
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+      max-width: 960px;
+    }
+    .step-card {
+      background: rgba(201,165,90,0.06);
+      border: 1px solid rgba(201,165,90,0.2);
+      border-radius: 16px;
+      padding: 28px 22px;
+      text-align: center;
+    }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      background: rgba(201,165,90,0.15);
+      border: 2px solid #c9a55a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #c9a55a;
+      margin: 0 auto 16px;
+    }
+    .step-card h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .step-card .step-sub {
+      font-size: 13px;
+      color: #c9a55a;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .step-card p {
+      font-size: 13px;
+      color: #7a8fa8;
+      line-height: 1.6;
+    }
+
+    /* ── STAT BOX ── */
+    .stat-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 32px;
+      max-width: 900px;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      background: rgba(201,165,90,0.06);
+      border: 1px solid rgba(201,165,90,0.2);
+      border-radius: 14px;
+      padding: 24px 28px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .stat-box .stat-num {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      color: #c9a55a;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-box .stat-label {
+      font-size: 13px;
+      color: #7a8fa8;
+      line-height: 1.5;
+    }
+
+    /* ── TITLE SLIDE SPECIFIC ── */
+    .title-slide { text-align: left; }
+    .title-slide .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    .logo-circle {
+      width: 48px;
+      height: 48px;
+      background: rgba(201,165,90,0.12);
+      border: 1px solid rgba(201,165,90,0.4);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .logo-text {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c9a55a;
+    }
+
+    /* ── MYTH SLIDE ── */
+    .myth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,80,80,0.1);
+      border: 1px solid rgba(255,80,80,0.25);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ff8080;
+      margin-bottom: 20px;
+    }
+    .truth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(80,200,120,0.1);
+      border: 1px solid rgba(80,200,120,0.25);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #80e0a0;
+      margin-bottom: 20px;
+    }
+
+    /* ── CHALLENGE SLIDE ── */
+    .big-number {
+      font-size: clamp(80px, 12vw, 140px);
+      font-weight: 900;
+      color: rgba(201,165,90,0.15);
+      line-height: 1;
+      position: absolute;
+      right: 80px;
+      top: 50%;
+      transform: translateY(-50%);
+      letter-spacing: -4px;
+      pointer-events: none;
+    }
+
+    /* ── SPEAKER NOTES ── */
+    .notes-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(201,165,90,0.1);
+      border: 1px solid rgba(201,165,90,0.2);
+      color: #c9a55a;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 20;
+      letter-spacing: 1px;
+    }
+    .notes-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(5,10,20,0.97);
+      border-top: 2px solid rgba(201,165,90,0.3);
+      padding: 20px 40px;
+      font-size: 14px;
+      color: #a8b8d0;
+      line-height: 1.7;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 15;
+      display: none;
+    }
+    .notes-panel.visible { display: block; }
+    .notes-panel strong { color: #c9a55a; }
+
+    /* ── PROGRESS BAR ── */
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: #c9a55a;
+      transition: width 0.3s ease;
+      z-index: 20;
+    }
+
+    @media (max-width: 768px) {
+      .slide { padding: 40px 28px; }
+      .two-col, .steps-row { grid-template-columns: 1fr; }
+      .stat-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<button class="notes-toggle" onclick="toggleNotes()">NOTES</button>
+<div class="notes-panel" id="notesPanel"></div>
+
+<div class="deck">
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 1 — TITLE
+  ════════════════════════════════════════════ -->
+  <div class="slide active title-slide" data-notes="This is your title slide. Have your GHL dashboard open and visible BEFORE you press record. Start talking immediately — don't wait for the slide to settle.">
+    <div class="logo-row">
+      <div class="logo-circle">◈</div>
+      <span class="logo-text">The Closer's Blueprint</span>
+    </div>
+    <p class="section-label">Cornerstone Video — 2026</p>
+    <div class="gold-line"></div>
+    <h1 class="h-xl">GoHighLevel for<br /><span class="gold">Agency Owners.</span></h1>
+    <p class="body-text">The complete setup tutorial — from a sales professional, not a developer.<br />Free starter snapshot included.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 2 — HOOK / PATTERN INTERRUPT
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Do NOT say 'hey guys welcome back.' Start mid-thought. Read this line cold, directly to camera, then let it land before moving on. Pause after the stat.">
+    <p class="section-label">The Hook</p>
+    <div class="gold-line"></div>
+    <h1 class="h-xl">Most agencies are<br />running <span class="gold">5 or 6 tools</span><br />to do what one does.</h1>
+    <div class="callout">
+      That's not a workflow problem.<br />
+      <strong>That's a money leak.</strong>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 3 — PAYOFF PROMISE
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="State exactly what they're getting in this video. Mention the free snapshot here — this is the first time you say it. Then introduce yourself briefly.">
+    <p class="section-label">What You're Getting Today</p>
+    <div class="gold-line"></div>
+    <h1 class="h-lg">In the next <span class="gold">60 minutes</span><br />I'll show you exactly how<br />to fix it — from scratch.</h1>
+    <ul class="bullet-list" style="margin-top:28px;">
+      <li><span class="dot"></span><span>The complete GoHighLevel setup — step by step, on screen</span></li>
+      <li><span class="dot"></span><span>The <strong>Pipeline-First Framework</strong> — 3 steps, maps directly to revenue</span></li>
+      <li><span class="dot"></span><span>The free <strong>Closer's Blueprint Starter Snapshot</strong> — pre-built, yours to keep</span></li>
+    </ul>
+    <p class="body-text" style="margin-top:24px;">I'm Sean Malone. Not a developer. A sales professional who automated the work I used to do manually. That's why this tutorial is going to make more sense to you than anything else you've watched.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 4 — OPPORTUNITY: BEFORE PICTURE
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Paint this picture slowly. Let them feel the pain. Most of your viewers are living this exact setup right now. Don't rush through it.">
+    <p class="section-label">The Opportunity — Part 1</p>
+    <div class="gold-line"></div>
+    <h2 class="h-md">Here's what the average<br />agency stack looks like right now:</h2>
+    <div class="two-col" style="margin-top:28px;">
+      <div class="col-card">
+        <h3>The Tools</h3>
+        <ul>
+          <li>HubSpot (or ActiveCampaign)</li>
+          <li>Zapier (to connect everything)</li>
+          <li>Calendly (for bookings)</li>
+          <li>ClickFunnels (for pages)</li>
+          <li>A separate SMS tool</li>
+          <li>A reputation tool</li>
+        </ul>
+      </div>
+      <div class="col-card gold-border">
+        <h3>The Real Cost</h3>
+        <ul>
+          <li>$400–$800/month in software</li>
+          <li>Hours lost switching between tools</li>
+          <li>Leads falling through the gaps</li>
+          <li>Nothing talks to each other</li>
+          <li>You're the integration layer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 5 — OPPORTUNITY: THE REPLACEMENT
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="This is the reveal moment. Let it land. GHL replaces the entire stack for less than what most people pay for HubSpot alone.">
+    <p class="section-label">The Opportunity — Part 2</p>
+    <div class="gold-line"></div>
+    <h1 class="h-lg">GoHighLevel replaces<br /><span class="gold">all of it.</span></h1>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-num">$97</div>
+        <div class="stat-label">Starter plan/month<br />replaces $400+ in tools</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">$297</div>
+        <div class="stat-label">Unlimited plan/month<br />no seat limits, no caps</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">Recurring commission<br />when you refer clients</div>
+      </div>
+    </div>
+    <p class="body-text">One platform. CRM, pipeline, calendar, funnels, SMS, email, reputation, AI — all connected out of the box.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 6 — OPPORTUNITY: THE MATH
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Anchor the math. Say it slowly. Let them do the math in their heads. The silence after you say $5K MRR is doing work for you — don't fill it.">
+    <p class="section-label">The Opportunity — Part 3</p>
+    <div class="gold-line"></div>
+    <h1 class="h-lg">Set it up once.<br /><span class="gold">Get paid forever.</span></h1>
+    <div class="callout">
+      10 clients × $500/month white-label fee<br />
+      = <strong>$5,000 MRR on top of your service revenue.</strong><br />
+      You're not doing more work. You set it up once.
+    </div>
+    <ul class="bullet-list">
+      <li><span class="dot"></span><span><strong>This is for:</strong> agency owners, coaches, founders doing $5K–$50K/month who are tired of the duct-tape stack</span></li>
+      <li><span class="dot"></span><span><strong>This is NOT for:</strong> people looking for a magic button or who won't commit 2 hours to set it up right</span></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 7 — MYTH 1 (The Claim)
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Pause before this slide. Say 'Before I show you the setup, I need to kill two myths that are going to slow you down.' Then let the myth sit on screen while you read it back to them.">
+    <p class="section-label">Myth #1</p>
+    <div class="gold-line"></div>
+    <div class="myth-badge">✕ &nbsp;MYTH</div>
+    <h1 class="h-lg">"GoHighLevel is too<br />complicated. It's for<br /><span class="gold">tech people."</span></h1>
+    <p class="body-text">If you've ever opened GHL and felt overwhelmed — this is why. The platform does a lot. But the part that makes you money is a fraction of what you're looking at.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 8 — MYTH 1 (The Reframe)
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Deliver the punchline at the end. Pause before it. This line should land like a closer's one-liner, not be rushed.">
+    <p class="section-label">Myth #1 — Busted</p>
+    <div class="gold-line"></div>
+    <div class="truth-badge">✓ &nbsp;THE TRUTH</div>
+    <h2 class="h-md">The core setup that makes<br />you money takes <span class="gold">under 2 hours.</span></h2>
+    <ul class="bullet-list">
+      <li><span class="dot"></span><span>Contacts. Pipeline. Calendar. One follow-up workflow. That's it.</span></li>
+      <li><span class="dot"></span><span>The free snapshot I'm giving away <strong>pre-builds 80% of it</strong> — you just customize the details</span></li>
+      <li><span class="dot"></span><span>You're not building a spaceship. You're setting up a system that <strong>follows up while you're on sales calls</strong></span></li>
+    </ul>
+    <div class="callout">
+      "The only thing complicated about GHL is deciding not to use it anymore."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 9 — MYTH 2 (The Claim)
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Let this myth breathe. A lot of your viewers believe this one deeply. Acknowledge it before you kill it.">
+    <p class="section-label">Myth #2</p>
+    <div class="gold-line"></div>
+    <div class="myth-badge">✕ &nbsp;MYTH</div>
+    <h1 class="h-lg">"I need a tech team<br />or agency experience<br />to make this <span class="gold">work."</span></h1>
+    <p class="body-text">This is the one that keeps good salespeople stuck on the sideline while average marketers print recurring revenue.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 10 — MYTH 2 (The Reframe)
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Hit the consistency point hard. This is your differentiator as a channel — you're proving that sales DNA beats tech knowledge in this space.">
+    <p class="section-label">Myth #2 — Busted</p>
+    <div class="gold-line"></div>
+    <div class="truth-badge">✓ &nbsp;THE TRUTH</div>
+    <h2 class="h-md">The people making the most<br />money with GHL are not the<br />most technical — <span class="gold">they're the most consistent.</span></h2>
+    <ul class="bullet-list">
+      <li><span class="dot"></span><span>One solo operator with a clear niche and a pre-built snapshot can outperform a 5-person agency on disconnected tools</span></li>
+      <li><span class="dot"></span><span>The real requirement: <strong>learn one tool deeply</strong> instead of half-learning six</span></li>
+      <li><span class="dot"></span><span>GHL's affiliate program pays <strong>40% recurring commission</strong> — the platform literally pays you to recommend it to clients</span></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 11 — ESP TRANSITION (go to camera)
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="THIS IS YOUR CUE TO GO OFF-SLIDES AND TALK DIRECTLY TO CAMERA. Tell your story here — no slides needed. The moment of realization, the specific pain, the first win. Then come back to slides for the framework.">
+    <p class="section-label">Expert Story Positioning</p>
+    <div class="gold-line"></div>
+    <h1 class="h-lg" style="opacity:0.4;">[ Off slides — tell your story ]</h1>
+    <p class="body-text" style="margin-top: 32px;">
+      Cover:<br /><br />
+      → Your background as a sales professional, not a developer<br />
+      → The specific moment that made you look for GHL<br />
+      → The first tangible win after implementing it<br />
+      → "I'm not a GoHighLevel developer. I'm a sales guy who automated the prospecting I used to do manually."<br />
+      → Brief mention of FlowChat as authority, not a pitch
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 12 — FRAMEWORK INTRO
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Name the framework out loud. Say it twice. 'The Pipeline-First Setup.' This is the moment you transition from teaching to showing. After this slide, go to screen share for the demo.">
+    <p class="section-label">The Framework</p>
+    <div class="gold-line"></div>
+    <h1 class="h-lg">The <span class="gold">Pipeline-First</span><br />Setup.</h1>
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-sub">The Hub</div>
+        <h3>Build the Foundation</h3>
+        <p>Sub-account · Calendar · Snapshot import</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-sub">The Engine</div>
+        <h3>Build the Follow-Up Machine</h3>
+        <p>Missed call text-back · Pipeline · Lead source</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-sub">The Close</div>
+        <h3>Build the Client-Facing Asset</h3>
+        <p>Funnel · Pipeline connection · Reputation mgmt</p>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:28px;">
+      "Most people stop at Step 1. The people making real money complete all three in the first week. That's the difference."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 13 — DEMO TRANSITION
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="This is your bridge line before you go to screen share. Say it, then cut to your GHL demo account. Keep your face in the corner pip during the entire demo.">
+    <p class="section-label">Demo Time</p>
+    <div class="gold-line"></div>
+    <h1 class="h-xl" style="opacity:0.35;">[ Switch to<br />screen share ]</h1>
+    <p class="body-text" style="margin-top:32px; font-size: 20px;">
+      Say on camera before switching:<br /><br />
+      <em style="color:#e8d5a8;">"Okay — enough theory. Let me show you exactly what this looks like inside the platform. I'm going to build all three steps live, right now."</em>
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 14 — #1 CHALLENGE (back from demo)
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Come back on camera after the demo. Say the bridge line first: 'Let me come back and tell you the one thing that will determine whether any of this actually works for you.' Then advance to this slide.">
+    <p class="section-label">The #1 Challenge</p>
+    <div class="gold-line"></div>
+    <h1 class="h-lg">The #1 thing that kills<br />results before you even<br /><span class="gold">start building.</span></h1>
+    <div class="callout">
+      It's not the software.<br />
+      <strong>It's building without a clear niche.</strong>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 15 — #1 CHALLENGE DETAIL
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="This is your direct challenge to the viewer. Slow down. Look into the camera. 'Before you close this video — pick your niche. Write it down.' Pause after you say it. Let it sit.">
+    <p class="section-label">The #1 Challenge — The Unlock</p>
+    <div class="gold-line"></div>
+    <h2 class="h-md">Pick <span class="gold">one niche.</span><br />Build the snapshot for that niche.<br />Give it away to every prospect in it.</h2>
+    <ul class="bullet-list">
+      <li><span class="dot"></span><span>Generic tools get generic results. The system works 3x faster when it's built for <strong>one type of client</strong></span></li>
+      <li><span class="dot"></span><span>Once you pick a niche, the snapshot becomes a <strong>product</strong> — deployable for every client in that niche</span></li>
+      <li><span class="dot"></span><span>This is where recurring revenue starts: one system → 10 clients → each pays monthly</span></li>
+    </ul>
+    <div class="callout">
+      "When you pick a niche, build the snapshot, and start giving it away — you stop chasing clients. Clients start finding you."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 16 — RECAP
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Fast-paced. 60-90 seconds max. Hit each point and move on. Don't re-explain anything — just name it. End on the action line at the bottom.">
+    <p class="section-label">Recap — What We Covered</p>
+    <div class="gold-line"></div>
+    <h2 class="h-md">Here's your blueprint:</h2>
+    <ul class="bullet-list">
+      <li><span class="dot"></span><span><strong>The Opportunity:</strong> One tool replaces your stack + creates a recurring revenue stream</span></li>
+      <li><span class="dot"></span><span><strong>Myth 1 busted:</strong> GHL isn't complicated — the right snapshot makes it a 2-hour setup</span></li>
+      <li><span class="dot"></span><span><strong>Myth 2 busted:</strong> You don't need tech — you need consistency and a clear niche</span></li>
+      <li><span class="dot"></span><span><strong>The Framework:</strong> Hub → Engine → Close</span></li>
+      <li><span class="dot"></span><span><strong>The #1 unlock:</strong> Pick your niche before you build anything</span></li>
+    </ul>
+    <div class="callout">
+      "Import the free snapshot. Set up the missed-call-text-back workflow.<br /><strong>That alone will make you money this week.</strong>"
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 17 — CTA
+  ════════════════════════════════════════════ -->
+  <div class="slide" data-notes="Say the primary CTA on camera, not just pointing at the slide. One time, clearly, with conviction. Then the secondary CTA (comment SNAPSHOT). Then point to the next video. Subscribe ask is LAST.">
+    <p class="section-label">What To Do Right Now</p>
+    <div class="gold-line"></div>
+    <h2 class="h-md">Three things. <span class="gold">In this order.</span></h2>
+    <ul class="bullet-list">
+      <li>
+        <span class="dot"></span>
+        <span><strong>1. Grab the free snapshot + 30-day trial</strong><br />
+        <span class="muted">go.closers-blueprint.com/snapshot — link is in the description</span></span>
+      </li>
+      <li>
+        <span class="dot"></span>
+        <span><strong>2. Comment "SNAPSHOT" below</strong><br />
+        <span class="muted">I'll send you the full bonus stack — 3 niche snapshots + the onboarding SOP</span></span>
+      </li>
+      <li>
+        <span class="dot"></span>
+        <span><strong>3. Watch the next video</strong><br />
+        <span class="muted">I'll show you the missed-call-text-back workflow live — the one that books appointments while you sleep</span></span>
+      </li>
+    </ul>
+    <p class="body-text" style="margin-top:24px;">If this was useful — subscribe. One video a week. No fluff. Just the blueprint.</p>
+  </div>
+
+</div><!-- end .deck -->
+
+<!-- ── NAVIGATION ── -->
+<div class="nav">
+  <button id="prevBtn" onclick="changeSlide(-1)" disabled>← PREV</button>
+  <span class="slide-counter" id="counter">1 / 17</span>
+  <button id="nextBtn" onclick="changeSlide(1)">NEXT →</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const progress = document.getElementById('progress');
+  const notesPanel = document.getElementById('notesPanel');
+  let current = 0;
+  let notesVisible = false;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, slides.length - 1));
+    slides[current].classList.add('active');
+    counter.textContent = `${current + 1} / ${slides.length}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+    if (notesVisible) {
+      notesPanel.innerHTML = slides[current].dataset.notes || '<em style="opacity:0.4;">No notes for this slide.</em>';
+    }
+  }
+
+  function changeSlide(dir) { showSlide(current + dir); }
+
+  function toggleNotes() {
+    notesVisible = !notesVisible;
+    notesPanel.classList.toggle('visible', notesVisible);
+    if (notesVisible) {
+      notesPanel.innerHTML = slides[current].dataset.notes || '<em style="opacity:0.4;">No notes for this slide.</em>';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      changeSlide(1);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      changeSlide(-1);
+    }
+    if (e.key === 'n' || e.key === 'N') toggleNotes();
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+  });
+
+  showSlide(0);
+</script>
+</body>
+</html>

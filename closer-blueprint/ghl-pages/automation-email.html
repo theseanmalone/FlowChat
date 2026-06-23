@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+  ============================================================
+  CLOSER'S BLUEPRINT — AUTOMATION EMAIL TEMPLATE
+  ============================================================
+  HOW TO USE IN GHL:
+  1. Go to Marketing → Emails → Templates → New Template
+  2. Choose "Custom Code" or paste HTML into the code editor
+  3. Replace {{snapshot_link}} with your actual snapshot share URL
+  4. Replace {{contact.first_name}} with GHL's merge tag for first name
+  5. Save as template named: "Snapshot Delivery — Immediate"
+
+  WORKFLOW TRIGGER:
+  - Trigger: Form submitted (opt-in form on Page 1)
+  - Action 1: Send this email (immediately, 0 delay)
+  - Action 2: Add tag → snapshot-requested
+  - Action 3: Add to pipeline stage → New Lead
+  ============================================================
+  -->
+  <title>Email Preview — Snapshot Delivery</title>
+  <style>
+    /* Email-safe reset */
+    body, table, td { margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #f0f4f8;
+      -webkit-text-size-adjust: 100%;
+    }
+    img { border: 0; display: block; }
+    a { color: #c9a55a; }
+  </style>
+</head>
+<body style="background:#f0f4f8; padding: 32px 16px;">
+
+  <!-- EMAIL WRAPPER -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="center">
+
+        <!-- EMAIL CONTAINER -->
+        <table
+          width="600"
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          style="max-width:600px; width:100%;"
+        >
+
+          <!-- HEADER BAR -->
+          <tr>
+            <td
+              style="
+                background: #0f1c35;
+                border-radius: 16px 16px 0 0;
+                padding: 28px 40px;
+                text-align: center;
+                border-bottom: 2px solid #c9a55a;
+              "
+            >
+              <p style="
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: #c9a55a;
+                margin: 0 0 6px;
+              ">The Closer's Blueprint</p>
+              <p style="
+                font-size: 13px;
+                color: rgba(255,255,255,0.4);
+                margin: 0;
+                letter-spacing: 1px;
+              ">Sales Systems Powered by GoHighLevel</p>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td
+              style="
+                background: #ffffff;
+                padding: 44px 40px 36px;
+              "
+            >
+
+              <!-- GREETING -->
+              <p style="font-size:16px; color:#1a2744; margin:0 0 24px; font-weight:600;">
+                Hey {{contact.first_name}},
+              </p>
+
+              <!-- OPENING -->
+              <p style="font-size:15px; color:#374151; line-height:1.7; margin:0 0 20px;">
+                Your free <strong>Closer's Blueprint Starter Snapshot</strong> is ready.
+                Everything you need to get your GoHighLevel account running — pipeline, follow-up
+                workflows, and reputation management — is pre-built and waiting for you.
+              </p>
+
+              <!-- SNAPSHOT CTA BUTTON -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 32px 0;">
+                <tr>
+                  <td align="center">
+                    <a
+                      href="{{snapshot_link}}"
+                      style="
+                        display: inline-block;
+                        background: #0f1c35;
+                        color: #c9a55a;
+                        font-size: 16px;
+                        font-weight: 800;
+                        text-decoration: none;
+                        padding: 16px 36px;
+                        border-radius: 10px;
+                        border: 2px solid #c9a55a;
+                        letter-spacing: 0.3px;
+                      "
+                    >
+                      → Load My Free Snapshot
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- INSTRUCTION -->
+              <p style="
+                font-size: 14px;
+                color: #6b7280;
+                line-height: 1.7;
+                margin: 0 0 28px;
+                background: #f9fafb;
+                border-left: 3px solid #c9a55a;
+                padding: 14px 16px;
+                border-radius: 0 8px 8px 0;
+              ">
+                <strong style="color:#374151;">How to import:</strong>
+                Click the button above → it will open inside your GoHighLevel account
+                and load the snapshot automatically. Takes less than 2 minutes.
+              </p>
+
+              <!-- DIVIDER -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 32px 0;">
+                <tr>
+                  <td style="border-top: 1px solid #e5e7eb; padding: 0;"></td>
+                </tr>
+              </table>
+
+              <!-- NO GHL ACCOUNT YET -->
+              <p style="font-size:14px; color:#6b7280; line-height:1.7; margin:0 0 16px;">
+                <strong style="color:#374151;">Don't have a GoHighLevel account yet?</strong><br />
+                No problem — grab your 30-day free trial first (standard trial is only 14 days,
+                but The Closer's Blueprint link doubles it), then come back and load the snapshot.
+              </p>
+
+              <!-- TRIAL CTA BUTTON -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 0 32px;">
+                <tr>
+                  <td align="center">
+                    <a
+                      href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=3y2tor"
+                      style="
+                        display: inline-block;
+                        background: #c9a55a;
+                        color: #0f1c35;
+                        font-size: 15px;
+                        font-weight: 800;
+                        text-decoration: none;
+                        padding: 14px 32px;
+                        border-radius: 10px;
+                        letter-spacing: 0.2px;
+                      "
+                    >
+                      Start My 30-Day Free Trial →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- DIVIDER -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 0 28px;">
+                <tr>
+                  <td style="border-top: 1px solid #e5e7eb; padding: 0;"></td>
+                </tr>
+              </table>
+
+              <!-- WHAT'S INSIDE THE SNAPSHOT -->
+              <p style="font-size:14px; font-weight:700; color:#1a2744; margin:0 0 14px;">
+                What's inside the snapshot:
+              </p>
+
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;">
+                <tr>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color:#c9a55a; font-weight:800; margin-right:10px;">✓</span>
+                    <span style="font-size:14px; color:#374151;">5-Stage Sales Pipeline (New Lead → Closed)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color:#c9a55a; font-weight:800; margin-right:10px;">✓</span>
+                    <span style="font-size:14px; color:#374151;">Missed Call Text-Back Workflow</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color:#c9a55a; font-weight:800; margin-right:10px;">✓</span>
+                    <span style="font-size:14px; color:#374151;">3-Email Follow-Up Nurture Sequence</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color:#c9a55a; font-weight:800; margin-right:10px;">✓</span>
+                    <span style="font-size:14px; color:#374151;">Reputation Management + Review Request Workflow</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0;">
+                    <span style="color:#c9a55a; font-weight:800; margin-right:10px;">✓</span>
+                    <span style="font-size:14px; color:#374151;">Lead Capture Form Connected to Pipeline</span>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- SIGN OFF -->
+              <p style="font-size:15px; color:#374151; line-height:1.7; margin:0 0 8px;">
+                Any questions — just reply to this email. I read every one.
+              </p>
+              <p style="font-size:15px; color:#374151; margin:0 0 4px;">— Sean</p>
+              <p style="font-size:13px; color:#9ca3af; margin:0;">
+                The Closer's Blueprint · Sales Systems Powered by GoHighLevel
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td
+              style="
+                background: #f9fafb;
+                border-top: 1px solid #e5e7eb;
+                border-radius: 0 0 16px 16px;
+                padding: 20px 40px;
+                text-align: center;
+              "
+            >
+              <p style="font-size:12px; color:#9ca3af; margin:0 0 6px;">
+                You're receiving this because you requested the free Closer's Blueprint Starter Snapshot.
+              </p>
+              <p style="font-size:12px; color:#9ca3af; margin:0;">
+                <a href="{{unsubscribe_link}}" style="color:#9ca3af;">Unsubscribe</a>
+                &nbsp;·&nbsp;
+                <a href="#" style="color:#9ca3af;">Privacy Policy</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- END EMAIL CONTAINER -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+
+
+<!--
+============================================================
+GHL AUTOMATION WORKFLOW SETUP INSTRUCTIONS
+============================================================
+
+STEP 1 — CREATE THE FORM (Marketing → Forms → New Form)
+  Name: "Snapshot Opt-In"
+  Fields: First Name (required), Email (required)
+  Redirect: Thank You page URL after submit
+
+STEP 2 — CREATE THE WORKFLOW (Automation → Workflows → New)
+  Name: "Snapshot Delivery Sequence"
+
+  TRIGGER:
+    → Form Submitted
+    → Select form: "Snapshot Opt-In"
+
+  ACTION 1 — Send Email (delay: immediately)
+    → Subject: "Here's your Closer's Blueprint Snapshot 🎯"
+    → From name: Sean | The Closer's Blueprint
+    → Template: paste this HTML file content
+
+  ACTION 2 — Add Tag (delay: immediately)
+    → Tag: snapshot-requested
+
+  ACTION 3 — Add to Pipeline (delay: immediately)
+    → Pipeline: [your pipeline name]
+    → Stage: New Lead
+
+  ACTION 4 — Send SMS (delay: 10 minutes)
+    → Message: "Hey {{contact.first_name}}! Your Closer's Blueprint
+      Snapshot is in your inbox. Check it + grab your 30-day GHL trial
+      here if you need one: https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=3y2tor
+      — Sean"
+
+STEP 3 — CONNECT THE FUNNEL PAGES
+  Page 1 (opt-in.html):
+    → Add GHL form embed code to the form section
+    → Set form redirect to Page 2 URL
+
+  Page 2 (thank-you.html):
+    → Add your YouTube video ID to the iframe embed
+    → Confirm affiliate link is correct
+
+STEP 4 — REPLACE THESE PLACEHOLDERS BEFORE GOING LIVE:
+  {{snapshot_link}}       → Your GHL snapshot share URL
+  {{contact.first_name}}  → GHL merge tag (already correct for GHL)
+  {{unsubscribe_link}}    → GHL unsubscribe merge tag
+  YOUR_VIDEO_ID           → YouTube video ID from your cornerstone video URL
+
+============================================================
+-->

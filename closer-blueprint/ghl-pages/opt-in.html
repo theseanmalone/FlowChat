@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Closer's Blueprint Starter Snapshot</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #0f1c35;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,165,90,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,165,90,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 680px;
+      padding: 48px 24px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* ── LOGO MARK ── */
+    .logo-mark {
+      margin-bottom: 32px;
+    }
+    .logo-mark svg {
+      width: 64px;
+      height: 64px;
+    }
+
+    /* ── EYEBROW ── */
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a55a;
+      margin-bottom: 20px;
+    }
+
+    /* ── HEADLINE ── */
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+    h1 span {
+      color: #c9a55a;
+    }
+
+    /* ── SUBHEADLINE ── */
+    .subhead {
+      font-size: clamp(15px, 2.5vw, 18px);
+      line-height: 1.6;
+      color: #a8b8d0;
+      margin-bottom: 36px;
+      max-width: 540px;
+    }
+
+    /* ── WHAT YOU GET ── */
+    .benefits {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 480px;
+    }
+    .benefits li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #d0dce8;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(201,165,90,0.12);
+    }
+    .benefits li:last-child { border-bottom: none; }
+    .benefits .check {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      background: rgba(201,165,90,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .benefits .check::after {
+      content: '✓';
+      font-size: 11px;
+      color: #c9a55a;
+      font-weight: 800;
+    }
+
+    /* ── FORM ── */
+    .form-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,165,90,0.2);
+      border-radius: 16px;
+      padding: 36px 32px;
+    }
+
+    .form-card .form-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c9a55a;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input::placeholder { color: rgba(255,255,255,0.35); }
+    .field input:focus { border-color: #c9a55a; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 18px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, #c9a55a 0%, #e8c97a 50%, #c9a55a 100%);
+      background-size: 200% 100%;
+      border: none;
+      border-radius: 10px;
+      color: #0f1c35;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: background-position 0.3s, transform 0.15s;
+    }
+    .btn-submit:hover {
+      background-position: 100% 0;
+      transform: translateY(-1px);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* ── TRUST LINE ── */
+    .trust {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .trust::before { content: '🔒'; font-size: 11px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 48px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      line-height: 1.8;
+    }
+    .footer a { color: rgba(201,165,90,0.6); text-decoration: none; }
+
+    /* ── DIVIDER ── */
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: #c9a55a;
+      margin: 0 auto 32px;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 480px) {
+      .form-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <!-- Logo Mark -->
+    <div class="logo-mark">
+      <!-- Compass SVG matching brand -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="12" fill="rgba(201,165,90,0.1)"/>
+        <!-- Blueprint grid -->
+        <line x1="8" y1="32" x2="56" y2="32" stroke="rgba(201,165,90,0.3)" stroke-width="0.5"/>
+        <line x1="32" y1="8" x2="32" y2="56" stroke="rgba(201,165,90,0.3)" stroke-width="0.5"/>
+        <!-- Compass triangle -->
+        <polygon points="32,12 18,48 46,48" stroke="#c9a55a" stroke-width="1.5" fill="rgba(201,165,90,0.08)"/>
+        <!-- Compass top circle -->
+        <circle cx="32" cy="12" r="3" stroke="#c9a55a" stroke-width="1.5" fill="#0f1c35"/>
+        <!-- Handshake simple -->
+        <path d="M24 34 Q28 30 32 34 Q36 38 40 34" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <p class="eyebrow">The Closer's Blueprint</p>
+
+    <h1>Get the Free<br /><span>Starter Snapshot</span></h1>
+
+    <div class="gold-line"></div>
+
+    <p class="subhead">
+      Pre-built GoHighLevel system — pipeline, follow-up workflows, and reputation management.
+      Ready to deploy in under 10 minutes.
+    </p>
+
+    <!-- Benefits List -->
+    <ul class="benefits">
+      <li>
+        <span class="check"></span>
+        <span><strong>5-Stage Sales Pipeline</strong> — New Lead → Contacted → Booked → Proposal → Closed</span>
+      </li>
+      <li>
+        <span class="check"></span>
+        <span><strong>Missed Call Text-Back Workflow</strong> — Fires automatically the second a call goes unanswered</span>
+      </li>
+      <li>
+        <span class="check"></span>
+        <span><strong>3-Email Nurture Sequence</strong> — Pre-written follow-up that runs without you</span>
+      </li>
+      <li>
+        <span class="check"></span>
+        <span><strong>Reputation Management Workflow</strong> — Auto-requests Google reviews from closed clients</span>
+      </li>
+      <li>
+        <span class="check"></span>
+        <span><strong>Lead Capture Form</strong> — Connected directly to your pipeline from day one</span>
+      </li>
+    </ul>
+
+    <!-- Opt-in Form -->
+    <div class="form-card">
+      <span class="form-label">Send me the snapshot — it's free</span>
+
+      <!-- GHL Form embed goes here. Replace the form below with your GHL embed code. -->
+      <form name="snapshot-optin" method="POST" action="#">
+
+        <div class="field">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            required
+            autocomplete="given-name"
+          />
+        </div>
+
+        <div class="field">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <button type="submit" class="btn-submit">
+          Send Me the Snapshot →
+        </button>
+
+      </form>
+
+      <p class="trust">No spam. Unsubscribe anytime. 100% free.</p>
+    </div>
+
+    <footer class="footer">
+      © 2026 The Closer's Blueprint · Sales Systems Powered by GoHighLevel<br />
+      <a href="#">Privacy Policy</a> · <a href="#">Terms</a>
+    </footer>
+
+  </div>
+</body>
+</html>

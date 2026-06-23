@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Claude + GHL SOP Template — The Closer's Blueprint</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #0f1c35;
+      --gold: #c9a55a;
+      --gold-light: rgba(201,165,90,0.12);
+      --gold-border: rgba(201,165,90,0.25);
+      --text: #1a2744;
+      --muted: #6b7280;
+      --light-bg: #f8fafc;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      body { background: white; }
+      .doc-wrap { box-shadow: none; margin: 0; border-radius: 0; }
+    }
+
+    /* ── LAYOUT ── */
+    .doc-wrap {
+      max-width: 800px;
+      margin: 32px auto;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    /* ── COVER HEADER ── */
+    .cover {
+      background: var(--navy);
+      padding: 56px 56px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,165,90,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,165,90,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .cover-inner { position: relative; z-index: 1; }
+
+    .brand-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .cover h1 {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .cover h1 span { color: var(--gold); }
+
+    .cover-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      max-width: 560px;
+      margin-bottom: 36px;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .meta-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .meta-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* ── INTRO BANNER ── */
+    .intro-banner {
+      background: var(--gold-light);
+      border-bottom: 1px solid var(--gold-border);
+      padding: 24px 56px;
+    }
+    .intro-banner p {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+      max-width: 640px;
+    }
+    .intro-banner strong { color: var(--text); }
+
+    /* ── BODY ── */
+    .doc-body {
+      padding: 48px 56px 64px;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gold);
+    }
+    .section-num {
+      width: 32px;
+      height: 32px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+    .section-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    /* ── CODE BLOCK ── */
+    .sop-block {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      padding: 24px 28px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #1f2937;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 16px;
+    }
+
+    /* ── INLINE KEY VALUE ── */
+    .kv-row {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+      align-items: flex-start;
+    }
+    .kv-row:last-child { border-bottom: none; }
+    .kv-key {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+    .kv-val {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    /* ── PIPELINE STAGES ── */
+    .pipeline {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    .stage {
+      flex: 1;
+      min-width: 100px;
+      background: var(--navy);
+      padding: 14px 12px 12px;
+      text-align: center;
+      position: relative;
+    }
+    .stage::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 22px solid transparent;
+      border-bottom: 22px solid transparent;
+      border-left: 12px solid var(--navy);
+      z-index: 1;
+    }
+    .stage:last-child::after { display: none; }
+    .stage-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(201,165,90,0.6);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .stage-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── RULE CARDS ── */
+    .rule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .rule-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .rule-icon {
+      font-size: 18px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .rule-card strong {
+      display: block;
+      font-size: 13px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .rule-card p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── TAG CHIPS ── */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .tag-chip {
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 99px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── VOICE RULES ── */
+    .voice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .voice-col {
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .voice-do { background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); }
+    .voice-dont { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); }
+    .voice-col h4 {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .voice-do h4 { color: #16a34a; }
+    .voice-dont h4 { color: #dc2626; }
+    .voice-col li {
+      font-size: 13px;
+      color: #374151;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      list-style: none;
+      display: flex;
+      gap: 8px;
+    }
+    .voice-col li:last-child { border-bottom: none; }
+    .voice-do li::before { content: '✓'; color: #16a34a; font-weight: 800; flex-shrink: 0; }
+    .voice-dont li::before { content: '✗'; color: #dc2626; font-weight: 800; flex-shrink: 0; }
+
+    /* ── AUTOMATION ROWS ── */
+    .auto-row {
+      display: flex;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid #f3f4f6;
+      align-items: flex-start;
+    }
+    .auto-row:last-child { border-bottom: none; }
+    .auto-trigger {
+      background: var(--gold-light);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400e;
+      min-width: 180px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .auto-arrow {
+      font-size: 16px;
+      color: var(--gold);
+      padding-top: 6px;
+    }
+    .auto-action {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.6;
+      padding-top: 4px;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: var(--gold-light);
+      border: 1px solid var(--gold-border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+    .callout-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .callout p {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.7;
+    }
+    .callout p strong { color: var(--text); }
+
+    /* ── KNOW LIST ── */
+    .know-list {
+      list-style: none;
+    }
+    .know-list li {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .know-list li:last-child { border-bottom: none; }
+    .know-list li::before {
+      content: '→';
+      color: var(--gold);
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── HOW TO USE ── */
+    .how-to {
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 40px;
+    }
+    .how-to h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .step-row {
+      display: flex;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      align-items: flex-start;
+    }
+    .step-row:last-child { border-bottom: none; }
+    .step-dot {
+      width: 24px;
+      height: 24px;
+      background: rgba(201,165,90,0.15);
+      border: 1px solid rgba(201,165,90,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+    .step-text strong { color: var(--white); }
+
+    /* ── CTA BLOCK ── */
+    .cta-block {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 40px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,165,90,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,165,90,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-block .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .cta-block h2 {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .cta-block p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+    .cta-block p strong { color: rgba(255,255,255,0.85); }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #c9a55a 0%, #e8c97a 50%, #c9a55a 100%);
+      background-size: 200% 100%;
+      color: var(--navy);
+      font-size: 16px;
+      font-weight: 900;
+      text-decoration: none;
+      padding: 18px 40px;
+      border-radius: 10px;
+      letter-spacing: 0.3px;
+      transition: background-position 0.3s, transform 0.15s;
+      margin-bottom: 12px;
+    }
+    .cta-btn:hover {
+      background-position: 100% 0;
+      transform: translateY(-2px);
+    }
+    .cta-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 10px;
+    }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      padding: 24px 56px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer p {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .doc-footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── DIVIDER ── */
+    .gold-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.3;
+      margin: 40px 0;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .cover, .doc-body, .intro-banner { padding-left: 24px; padding-right: 24px; }
+      .rule-grid, .voice-grid { grid-template-columns: 1fr; }
+      .pipeline { gap: 2px; }
+      .stage::after { display: none; }
+      .auto-row { flex-direction: column; }
+      .auto-trigger { min-width: unset; width: fit-content; }
+      .cta-block { padding: 28px 24px; }
+      .doc-footer { flex-direction: column; text-align: center; }
+      .kv-row { flex-direction: column; gap: 4px; }
+      .kv-key { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="doc-wrap">
+
+  <!-- ── COVER ── -->
+  <div class="cover">
+    <div class="cover-inner">
+      <p class="brand-eyebrow">The Closer's Blueprint</p>
+      <h1>The Claude + GHL<br /><span>SOP Template</span></h1>
+      <p class="cover-sub">
+        Everything you need to train Claude to run your GoHighLevel account —
+        pipeline logic, follow-up rules, automation triggers, and your sales voice.
+        Copy it, fill in your details, drop it into Claude Projects. Done.
+      </p>
+      <div class="cover-meta">
+        <div class="meta-item">
+          <span class="meta-label">Format</span>
+          <span class="meta-value">Paste-ready SOP Template</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Works With</span>
+          <span class="meta-value">Claude Projects + GHL MCP</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Time to Customize</span>
+          <span class="meta-value">Under 30 Minutes</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">From</span>
+          <span class="meta-value">The Closer's Blueprint</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INTRO BANNER ── -->
+  <div class="intro-banner">
+    <p>
+      This document is a <strong>working SOP template</strong> — not a tutorial, not a list of tips.
+      You fill in the brackets, paste the whole thing into a Claude Project, and Claude becomes a context-aware
+      assistant for your GHL account. It knows your pipeline stages, your follow-up rules, your ICP, your voice.
+      Every conversation starts informed. No re-explaining. No generic outputs.
+    </p>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="doc-body">
+
+    <!-- HOW TO USE THIS -->
+    <div class="how-to">
+      <h3>How to Use This Template</h3>
+      <div class="step-row">
+        <div class="step-dot">1</div>
+        <div class="step-text"><strong>Open Claude at claude.ai</strong> — go to Projects in the left sidebar and create a new Project named something like "GHL Sales System."</div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">2</div>
+        <div class="step-text"><strong>Click "Add Instructions"</strong> inside the Project — this is your persistent context that every chat in this Project inherits automatically.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">3</div>
+        <div class="step-text"><strong>Copy everything below</strong> (all sections), paste it in, and replace every [BRACKET] with your actual info.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">4</div>
+        <div class="step-text"><strong>Save it.</strong> Now every conversation in this Project starts with Claude already knowing your system. Ask it to write follow-up emails, audit pipeline stages, draft workflows — it'll know the context.</div>
+      </div>
+      <div class="step-row">
+        <div class="step-dot">5</div>
+        <div class="step-text"><strong>Optional: connect the GHL MCP server</strong> (Settings → Integrations in Claude.ai) and Claude can read and write directly inside your GHL account — no copy-paste required.</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: WHO WE ARE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <span class="section-title">Who We Are</span>
+        <span class="section-desc">Your business identity — replace all brackets</span>
+      </div>
+      <div class="sop-block">## WHO WE ARE
+
+Business name: [YOUR BUSINESS NAME]
+Owner/operator: [YOUR NAME]
+Website: [YOUR WEBSITE]
+Primary offer: [YOUR MAIN OFFER — one sentence]
+Price point: [PRICE RANGE, e.g. $3,500–$10,000]
+Delivery model: [Done-For-You / Done-With-You / Self-Serve / Course / etc.]
+
+What we help people do:
+[1–2 sentences. Be specific. "We help X do Y without Z."]
+
+What makes us different:
+[1–2 sentences on your actual differentiator — methodology, framework, access, results]</div>
+    </div>
+
+    <!-- SECTION 2: ICP -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <span class="section-title">Ideal Client Profile (ICP)</span>
+        <span class="section-desc">Who you want, who you don't — Claude uses this to pre-qualify copy</span>
+      </div>
+      <div class="sop-block">## IDEAL CLIENT PROFILE
+
+Target company size: [e.g. 2–15 employees]
+Annual revenue range: [e.g. $500K–$5M/year]
+Industry/niche: [e.g. professional services, agencies, coaches]
+Decision maker title: [e.g. Founder, Co-Founder, C-Level]
+Offer price minimum: [e.g. $2,500+]
+
+Pain points they come in with:
+- [Pain 1 — what they say out loud]
+- [Pain 2]
+- [Pain 3]
+
+What they want:
+- [Outcome 1]
+- [Outcome 2]
+
+Green flags (good fit):
+- [Signal 1 — e.g. "actively running paid ads"]
+- [Signal 2]
+- [Signal 3]
+
+Red flags (bad fit — do not pursue):
+- [Disqualifier 1]
+- [Disqualifier 2]</div>
+    </div>
+
+    <!-- SECTION 3: PIPELINE STAGES -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <span class="section-title">GHL Pipeline Stages</span>
+        <span class="section-desc">Tell Claude what each stage means so it can write stage-appropriate copy</span>
+      </div>
+
+      <div class="pipeline">
+        <div class="stage">
+          <div class="stage-num">01</div>
+          <div class="stage-name">New Lead</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">02</div>
+          <div class="stage-name">Contacted</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">03</div>
+          <div class="stage-name">Booked</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">04</div>
+          <div class="stage-name">Proposal</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">05</div>
+          <div class="stage-name">Closed</div>
+        </div>
+      </div>
+
+      <div class="sop-block">## PIPELINE STAGES
+
+Stage 1 — New Lead
+  Definition: [Who lands here. e.g. "Opt-in form submitted, no human contact yet."]
+  What Claude should do: [e.g. "Write warm, curiosity-driven first-touch messages."]
+  Goal: [e.g. "Book a discovery call within 48 hours."]
+
+Stage 2 — Contacted
+  Definition: [e.g. "First touch sent. Waiting on reply."]
+  What Claude should do: [e.g. "Write short follow-up messages, no more than 2 per week."]
+  Goal: [e.g. "Get a response, confirm interest, book the call."]
+
+Stage 3 — Booked
+  Definition: [e.g. "Call scheduled. Lead has confirmed."]
+  What Claude should do: [e.g. "Write pre-call confirmation and reminder messages that build anticipation."]
+  Goal: [e.g. "Show up rate. Keep them warm and excited."]
+
+Stage 4 — Proposal Sent
+  Definition: [e.g. "Call completed. Proposal or quote delivered."]
+  What Claude should do: [e.g. "Write follow-up that surfaces objections, not pushes price."]
+  Goal: [e.g. "Get a decision. Yes or no. No ghosting."]
+
+Stage 5 — Closed Won
+  Definition: [e.g. "Signed. Paid. Onboarding started."]
+  What Claude should do: [e.g. "Write onboarding welcome sequence and set expectations."]
+  Goal: [e.g. "Fast activation. Client gets an early win within 7 days."]
+
+Stage 6 — Closed Lost (optional)
+  Definition: [e.g. "Not the right fit right now, or chose a competitor."]
+  What Claude should do: [e.g. "Write a graceful exit message. Leave the door open."]</div>
+    </div>
+
+    <!-- SECTION 4: FOLLOW-UP RULES -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <span class="section-title">Follow-Up Rules</span>
+        <span class="section-desc">Non-negotiables for how Claude writes outreach</span>
+      </div>
+
+      <div class="rule-grid" style="margin-bottom: 20px;">
+        <div class="rule-card">
+          <span class="rule-icon">⏱</span>
+          <strong>Speed</strong>
+          <p>Missed call text-back fires within [X minutes]. All new leads get first contact within [X hours].</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">📏</span>
+          <strong>Message Length</strong>
+          <p>First touches: [2–3 sentences max]. Nurture emails: [200–350 words]. Never pad. Cut if it doesn't earn its space.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">🔁</span>
+          <strong>Cadence</strong>
+          <p>No more than [X messages per week] to a non-responding lead. After [X attempts], move to low-frequency list.</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-icon">🚫</span>
+          <strong>Hard Stops</strong>
+          <p>Never message after [X PM local time]. If a lead says "not interested," stop immediately. No guilt-trip copy.</p>
+        </div>
+      </div>
+
+      <div class="sop-block">## FOLLOW-UP RULES (paste into SOP)
+
+1. First touch speed: [e.g. within 5 minutes of form submit]
+2. Follow-up frequency: [e.g. max 2x/week if no reply]
+3. Max attempts before moving to nurture: [e.g. 5 touches over 2 weeks]
+4. SMS max: [e.g. no more than 2 SMS per week]
+5. Email max: [e.g. 3-email welcome sequence, then weekly newsletter]
+6. Blackout hours: [e.g. no sends before 8am or after 8pm recipient local time]
+7. Unsubscribe handling: [e.g. immediate, no re-adds without opt-in]</div>
+    </div>
+
+    <!-- SECTION 5: VOICE + WRITING RULES -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <span class="section-title">Voice + Writing Rules</span>
+        <span class="section-desc">How every piece of copy sounds — do's and don'ts</span>
+      </div>
+
+      <div class="voice-grid" style="margin-bottom: 20px;">
+        <div class="voice-col voice-do">
+          <h4>Always Do</h4>
+          <ul>
+            <li>Short sentences. One idea per line.</li>
+            <li>Conversational — sounds like a text, not a brochure</li>
+            <li>Lead with the outcome, not the feature</li>
+            <li>Name the problem before the solution</li>
+            <li>End with one clear next step</li>
+            <li>Use the prospect's first name once per message</li>
+          </ul>
+        </div>
+        <div class="voice-col voice-dont">
+          <h4>Never Do</h4>
+          <ul>
+            <li>"I hope this email finds you well"</li>
+            <li>Three CTAs in one message</li>
+            <li>Corporate buzzwords (leverage, synergy, scalable)</li>
+            <li>Vague subject lines ("Checking in…")</li>
+            <li>Asking for time before giving value</li>
+            <li>Emojis unless the relationship is warm</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sop-block">## VOICE + WRITING RULES
+
+Tone: [e.g. Direct, warm, professional. Sounds like a trusted advisor — not a pitch deck.]
+
+Writing style:
+- Short paragraphs. Max 2–3 sentences.
+- No fluff openers. Get to the point in line 1.
+- Active voice. Cut passive constructions.
+- Contractions are fine: "you're", "we've", "it's"
+- Use the word "you" often. Focus on their world, not ours.
+
+Words we use: [e.g. pipeline, close, revenue, booked, system, flow]
+Words we avoid: [e.g. blast, crush it, game-changer, holistic, disruptive]
+
+Sign-off style: [e.g. "— [First Name]" — no "Best regards," no "Warmly,"]
+
+Subject line formula: [e.g. Direct question / Specific outcome / First name included]</div>
+    </div>
+
+    <!-- SECTION 6: KEY AUTOMATIONS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <span class="section-title">Key Automations</span>
+        <span class="section-desc">The workflows Claude needs to know exist in your GHL account</span>
+      </div>
+
+      <div class="auto-row">
+        <div class="auto-trigger">Missed Call</div>
+        <div class="auto-arrow">→</div>
+        <div class="auto-action">SMS fires within [X min]. Text: <em>"Hey [First Name] — missed your call. What's the best time to reach you? — [Your Name]"</em> + add tag: missed-call</div>
+      </div>
+      <div class="auto-row">
+        <div class="auto-trigger">Form Submitted</div>
+        <div class="auto-arrow">→</div>
+        <div class="auto-action">Email fires immediately with [lead magnet / snapshot link]. Tag: new-opt-in. Add to pipeline: New Lead stage.</div>
+      </div>
+      <div class="auto-row">
+        <div class="auto-trigger">No Reply (5 days)</div>
+        <div class="auto-arrow">→</div>
+        <div class="auto-action">Follow-up #2 fires. After [X] attempts with no reply → move to Long-Term Nurture. Tag: nurture-sequence.</div>
+      </div>
+      <div class="auto-row">
+        <div class="auto-trigger">Closed Won</div>
+        <div class="auto-arrow">→</div>
+        <div class="auto-action">Onboarding email fires. Tag: active-client. Remove from sales sequences. Add to Client Success workflow.</div>
+      </div>
+      <div class="auto-row">
+        <div class="auto-trigger">30 Days Post-Close</div>
+        <div class="auto-arrow">→</div>
+        <div class="auto-action">Reputation management fires: review request SMS → if no reply, follow-up email at day 35.</div>
+      </div>
+
+      <div class="sop-block" style="margin-top:16px;">## KEY AUTOMATIONS (customize for your GHL)
+
+Workflow 1 — [Name]: [Trigger] → [Actions, in order] → [End state/tag]
+Workflow 2 — [Name]: [Trigger] → [Actions, in order] → [End state/tag]
+Workflow 3 — [Name]: [Trigger] → [Actions, in order] → [End state/tag]
+
+Note to Claude: When I ask you to help with automation copy, assume these workflows
+exist in my GHL. Write any follow-up messages to match the stage of the workflow
+I specify. Default to SMS length (under 160 chars) unless I say email.</div>
+    </div>
+
+    <!-- SECTION 7: TAGS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <span class="section-title">GHL Tags</span>
+        <span class="section-desc">Your tagging logic — helps Claude reference contact state correctly</span>
+      </div>
+
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Replace with your own tag taxonomy. Keep tags lowercase with hyphens — no spaces.</p>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Lead Status</p>
+        <div class="tag-list">
+          <span class="tag-chip">new-lead</span>
+          <span class="tag-chip">contacted</span>
+          <span class="tag-chip">call-booked</span>
+          <span class="tag-chip">proposal-sent</span>
+          <span class="tag-chip">closed-won</span>
+          <span class="tag-chip">closed-lost</span>
+          <span class="tag-chip">not-qualified</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Sequence State</p>
+        <div class="tag-list">
+          <span class="tag-chip">in-sequence</span>
+          <span class="tag-chip">sequence-complete</span>
+          <span class="tag-chip">nurture-sequence</span>
+          <span class="tag-chip">opted-out</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <p style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Source / Attribution</p>
+        <div class="tag-list">
+          <span class="tag-chip">source-youtube</span>
+          <span class="tag-chip">source-podcast</span>
+          <span class="tag-chip">source-referral</span>
+          <span class="tag-chip">source-dm</span>
+          <span class="tag-chip">source-paid</span>
+        </div>
+      </div>
+
+      <div class="sop-block">## GHL TAGS
+
+Add your full tag list here. Format each as:
+  [tag-name] — [what it means / when it's applied]
+
+Example:
+  new-lead — applied on form submit, before any human contact
+  call-booked — applied when calendar event confirmed
+  active-client — applied on first payment received
+  review-requested — applied when reputation workflow fires</div>
+    </div>
+
+    <!-- SECTION 8: WHAT CLAUDE SHOULD ALWAYS KNOW -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <span class="section-title">What Claude Should Always Know</span>
+        <span class="section-desc">Standing rules that apply to every conversation in this Project</span>
+      </div>
+
+      <ul class="know-list">
+        <li>When I say "write a follow-up," assume the contact is in the stage I specify. Default to the Contacted stage if I don't say.</li>
+        <li>Always write in the voice defined in Section 5. Don't break it unless I explicitly say to.</li>
+        <li>Never invent pipeline stages, tags, or automation names — only use the ones defined in this document.</li>
+        <li>If I ask you to review copy, check it against the ICP in Section 2 and the voice rules in Section 5.</li>
+        <li>Our affiliate link is: [YOUR AFFILIATE LINK — only include if relevant to your channel]. Always use it when linking to GHL signups.</li>
+        <li>The goal of every touchpoint is to earn the next step — not to close on contact 1. Never be pushy.</li>
+        <li>When I ask you to "draft a workflow," describe the trigger, delay logic, and message copy — not just the concept.</li>
+        <li>[ADD YOUR OWN STANDING RULES HERE]</li>
+      </ul>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <!-- CLOSING CALLOUT -->
+    <div class="callout">
+      <p class="callout-label">Pro Tip from Sean</p>
+      <p>
+        The fastest way to get value from this template isn't perfecting it — it's <strong>pasting a rough version and iterating</strong>.
+        Drop an 80% version into Claude Projects today. Use it for one week. Then update based on what Claude gets wrong.
+        The SOP gets sharper every time you correct it. Perfection is how this collects dust.
+      </p>
+    </div>
+
+    <!-- CTA BLOCK -->
+    <div class="cta-block">
+      <div class="cta-inner">
+        <p class="cta-eyebrow">Free Resource — The Closer's Blueprint</p>
+        <h2>Want the Pre-Built GHL System<br />to Go With This SOP?</h2>
+        <p>
+          The <strong>Closer's Blueprint Starter Snapshot</strong> is the pre-configured GHL account
+          that matches this template — the same 5-stage pipeline, the same automation triggers,
+          and the same follow-up logic. Import it in under 10 minutes.
+          <br /><br />
+          It's free. No pitch. Just grab it and load it.
+        </p>
+        <a href="https://go.closers-blueprint.com/snapshot" class="cta-btn">
+          Get the Free Starter Snapshot →
+        </a>
+        <p class="cta-note">
+          go.closers-blueprint.com/snapshot · Free GoHighLevel Starter System<br />
+          Includes the pipeline, missed call text-back, 3-email nurture, and reputation workflow
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <!-- END DOC BODY -->
+
+  <!-- ── FOOTER ── -->
+  <div class="doc-footer">
+    <p>© 2026 The Closer's Blueprint · <a href="https://go.closers-blueprint.com/snapshot">go.closers-blueprint.com/snapshot</a></p>
+    <p>Share this freely. Just keep the link intact.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

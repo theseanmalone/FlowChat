@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>47 Deals in 11 Seconds — The Closer's Blueprint</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f9f9f7;
+      color: #1a1a1a;
+      line-height: 1.75;
+      padding: 40px 20px;
+    }
+
+    .doc {
+      max-width: 740px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 56px 64px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      text-align: center;
+      border-bottom: 3px solid #1a1a1a;
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .header .brand {
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #1a1a1a;
+    }
+
+    /* ── GHL CTA BANNER ── */
+    .cta-banner {
+      background: #1a1a1a;
+      color: #fff;
+      text-align: center;
+      padding: 18px 24px;
+      margin-bottom: 36px;
+      border-radius: 4px;
+    }
+
+    .cta-banner p {
+      font-family: 'Arial', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .cta-banner a {
+      color: #f5c842;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .cta-banner a:hover { text-decoration: underline; }
+
+    /* ── SECTION HEADERS ── */
+    .section-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #888;
+      border-top: 1px solid #ddd;
+      padding-top: 28px;
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+
+    p {
+      font-size: 15px;
+      margin-bottom: 14px;
+      color: #2a2a2a;
+    }
+
+    /* ── PROMPT BLOCKS ── */
+    .prompt-block {
+      background: #f4f4f0;
+      border-left: 4px solid #1a1a1a;
+      padding: 20px 24px;
+      margin: 16px 0 24px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .prompt-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .prompt-block pre {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #1a1a1a;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ── CODE (setup command) ── */
+    .code-block {
+      background: #1a1a1a;
+      color: #f0f0f0;
+      padding: 20px 24px;
+      border-radius: 4px;
+      margin: 16px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ── NUMBERED STEPS ── */
+    ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    ol li {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: #2a2a2a;
+    }
+
+    /* ── MOVE BOXES (closing strategy) ── */
+    .move-box {
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+    }
+
+    .move-box .move-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .move-box h3 {
+      margin-top: 0;
+      font-size: 15px;
+    }
+
+    /* ── QUOTE ── */
+    .quote {
+      background: #f4f4f0;
+      border-left: 4px solid #ccc;
+      padding: 14px 20px;
+      margin: 12px 0;
+      font-style: italic;
+      font-size: 14px;
+      color: #444;
+    }
+
+    /* ── RESULTS ── */
+    .results {
+      display: flex;
+      gap: 16px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .result-stat {
+      flex: 1;
+      min-width: 160px;
+      text-align: center;
+      background: #f4f4f0;
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .result-stat .number {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a1a;
+      display: block;
+    }
+
+    .result-stat .label {
+      font-family: 'Arial', sans-serif;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* ── SNAPSHOT CTA ── */
+    .snapshot-cta {
+      background: #f9f9f7;
+      border: 2px solid #1a1a1a;
+      padding: 28px 32px;
+      margin-top: 36px;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .snapshot-cta h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .snapshot-cta p {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 16px;
+    }
+
+    .snapshot-cta a.btn {
+      display: inline-block;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 13px 28px;
+      border-radius: 4px;
+      font-family: 'Arial', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+
+    .snapshot-cta a.btn:hover { background: #333; }
+
+    .includes {
+      margin-top: 18px;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .includes li {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 5px;
+      list-style: none;
+      padding-left: 4px;
+    }
+
+    /* ── PRO TIP ── */
+    .pro-tip {
+      border-top: 3px solid #1a1a1a;
+      padding-top: 28px;
+      margin-top: 40px;
+    }
+
+    .pro-tip .tip-label {
+      font-family: 'Arial', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 14px;
+    }
+
+    .pro-tip p { font-size: 15px; }
+
+    .signature {
+      margin-top: 24px;
+      font-size: 15px;
+      color: #1a1a1a;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+      margin-top: 40px;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 1px;
+    }
+
+    a { color: #1a1a1a; }
+
+    @media (max-width: 600px) {
+      .doc { padding: 32px 24px; }
+      .results { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">The Closer's Blueprint</div>
+    <h1>Claude Dug Through My Messy Pipeline and Found 47 Deals I Forgot About in 11 Seconds</h1>
+  </div>
+
+  <!-- GHL CTA BANNER -->
+  <div class="cta-banner">
+    <p>Don't have a GHL account yet?<br>
+    <a href="https://go.closers-blueprint.com/snapshot">Grab a free 30-day trial + a bootcamp to get moving fast &rarr;</a><br>
+    <small style="color:#ccc;font-size:12px;">Not the standard 14 days. Thirty.</small></p>
+  </div>
+
+  <!-- SETUP -->
+  <div class="section-label">Before You Start</div>
+  <h2>What You Need Before This Works</h2>
+  <p>You need Claude Code connected to GoHighLevel via MCP. Run this command in your terminal and replace <strong>YOUR_PIT_TOKEN</strong> with your GoHighLevel Private Integration Token.</p>
+
+  <div class="code-block">claude mcp add --transport http gohighlevel \
+  https://services.leadconnectorhq.com/mcp/ \
+  --header "Authorization: Bearer YOUR_PIT_TOKEN" \
+  --header "Version: 2021-07-28"</div>
+
+  <p><strong>To get your Private Integration Token:</strong><br>
+  GHL &rarr; Settings &rarr; Private Integrations &rarr; Create New Integration</p>
+
+  <p>Once that's live, every prompt below runs inside your Claude Code terminal and reads directly from your GHL data.</p>
+
+  <!-- PROMPTS -->
+  <div class="section-label">The Prompt Sequence</div>
+  <h2>5 Prompts. Start to Close.</h2>
+
+  <h3>Prompt 1 &mdash; Find the forgotten deals <em>(this is the 11 seconds)</em></h3>
+  <p>Paste this exactly into your Claude Code terminal:</p>
+  <div class="prompt-block">
+    <div class="prompt-label">Copy &amp; Paste</div>
+    <pre>Look at my GoHighLevel pipeline. Find all opportunities that
+haven't been updated in the last 30 days, are still open
+(not won or lost), and give me a list sorted by how long
+since we last touched them. For each one show me:
+contact name, phone number, email, pipeline stage,
+and days since last activity.</pre>
+  </div>
+  <p>That's the pull. Claude queries GHL and returns the list. That's your 47 deals.</p>
+
+  <h3>Prompt 2 &mdash; Add context so you know what to say</h3>
+  <div class="prompt-block">
+    <div class="prompt-label">Copy &amp; Paste</div>
+    <pre>For each of these contacts, check their conversation history
+and any notes in GHL. Tell me the last thing that was said
+or done with each person — what stage we left off at and
+whether they ever expressed interest in moving forward.</pre>
+  </div>
+  <p>Now you don't just have a list. You have context for every name on it.</p>
+
+  <h3>Prompt 3 &mdash; Sort by likelihood to close</h3>
+  <div class="prompt-block">
+    <div class="prompt-label">Copy &amp; Paste</div>
+    <pre>Now sort these contacts into three groups based on what
+you found:
+
+HOT  — They expressed real interest but we lost touch
+WARM — They engaged but never committed
+COLD — Minimal engagement, little signal either way
+
+Show me the HOT group first with a one-sentence summary
+of where we left off with each person.</pre>
+  </div>
+  <p>Work the HOT group today. Warm group this week. Cold group gets an automated sequence.</p>
+
+  <h3>Prompt 4 &mdash; Write the re-engagement messages</h3>
+  <div class="prompt-block">
+    <div class="prompt-label">Copy &amp; Paste</div>
+    <pre>For every contact in the HOT group, write me a
+personalized re-engagement text message based on
+what we last talked about.
+
+Rules:
+- 2-3 sentences max
+- Reference something specific from our last conversation
+- Sound like I'm picking up where we left off, not starting over
+- Never say "just checking in" or "circling back"
+- End with one direct question that moves things forward
+- Write it in first person as Sean</pre>
+  </div>
+  <p>Claude writes a different message for every contact. Not a blast. Actual personalization from your own conversation history.</p>
+
+  <h3>Prompt 5 &mdash; Load them into a follow-up sequence in GHL</h3>
+  <div class="prompt-block">
+    <div class="prompt-label">Copy &amp; Paste</div>
+    <pre>For the WARM and COLD groups, create a 3-step follow-up
+sequence in GoHighLevel:
+
+Day 1: Text message — casual re-engagement, one question
+Day 3: Email — brief value reminder, soft ask
+Day 7: Text — final touch, direct offer or close the loop
+
+Write the copy for each step. Keep the tone conversational.
+No corporate language. Sound like a real person following up.</pre>
+  </div>
+
+  <!-- CLOSING STRATEGY -->
+  <div class="section-label">Closing Strategy</div>
+  <h2>Three Moves for the HOT Group</h2>
+
+  <div class="move-box">
+    <div class="move-label">Move 1</div>
+    <h3>Send the message Claude wrote</h3>
+    <p>Don't edit it to death. Send it. The goal is a reply, not a masterpiece.</p>
+  </div>
+
+  <div class="move-box">
+    <div class="move-label">Move 2</div>
+    <h3>Qualify with one question when they reply</h3>
+    <p>When they respond, send this:</p>
+    <div class="quote">"Quick question — is [the thing they were interested in] still something you're trying to figure out this month, or did that take a back seat?"</div>
+    <p>That question separates people still in buying mode from people who moved on. You need to know which one you're dealing with before you spend another minute on them.</p>
+  </div>
+
+  <div class="move-box">
+    <div class="move-label">Move 3</div>
+    <h3>Book the call. Don't pitch in text.</h3>
+    <p>If they say yes it's still relevant:</p>
+    <div class="quote">"Let's get 20 minutes on the calendar. Here's my link — [Calendly link]. Pick whatever works."</div>
+    <p>No pitch in the DM. No features, no benefits. Just the call.</p>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="section-label">Proof</div>
+  <h2>What This Delivered on a Dead List of 10,000</h2>
+  <div class="results">
+    <div class="result-stat">
+      <span class="number">27%</span>
+      <span class="label">Open rate vs. usual 15%</span>
+    </div>
+    <div class="result-stat">
+      <span class="number">3%</span>
+      <span class="label">Click-through rate</span>
+    </div>
+    <div class="result-stat">
+      <span class="number">Dozens</span>
+      <span class="label">Sales from a written-off list</span>
+    </div>
+  </div>
+  <p>The copy worked because it wasn't made-up words. It was the buyers' own words, pulled from GHL and mirrored back.</p>
+
+  <!-- SNAPSHOT CTA -->
+  <div class="snapshot-cta">
+    <h2>Get the Free Starter Snapshot</h2>
+    <p>The system Claude reads from is built inside GoHighLevel.<br>
+    The Closer's Blueprint Starter Snapshot gives you the pre-built pipeline, follow-up workflows, and contact structure that makes all of this work.</p>
+    <a class="btn" href="https://go.closers-blueprint.com/snapshot">Grab It Free — Includes 30-Day GHL Trial &rarr;</a>
+    <ul class="includes">
+      <li>&#10003; Pre-built 5-stage sales pipeline</li>
+      <li>&#10003; Missed call text-back automation</li>
+      <li>&#10003; 3-email follow-up nurture sequence</li>
+      <li>&#10003; Reputation management workflow</li>
+      <li>&#10003; Ready to deploy in under 10 minutes</li>
+    </ul>
+  </div>
+
+  <!-- PRO TIP -->
+  <div class="pro-tip">
+    <div class="tip-label">Pro Tip from Sean</div>
+    <p>Once you run this the first time, you'll be surprised how many names come back.</p>
+    <p>Don't overthink the messages Claude writes. Send one. See what happens. The reply rate on re-engagement that actually references the last conversation will shock you.</p>
+    <p>Most of these deals didn't die. They just got quiet. There's a difference.</p>
+    <div class="signature">
+      Happy selling,<br><br>
+      &mdash; Sean<br><br>
+      <small>P.S. If you found this useful, subscribe to the channel so you don't miss the next build.<br>
+      <a href="https://www.youtube.com/@theclosersblueprint">youtube.com/@theclosersblueprint</a></small>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    &copy; 2026 The Closer's Blueprint &nbsp;&bull;&nbsp; Share freely. Keep the link intact.<br>
+    <a href="https://go.closers-blueprint.com/snapshot">go.closers-blueprint.com/snapshot</a>
+  </div>
+
+</div>
+</body>
+</html>
